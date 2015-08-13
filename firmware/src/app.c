@@ -130,37 +130,49 @@ void APP_Initialize ( void )
     AccelInit();
 }
 
-
+ACCEL_XYZ  acc_xyz;
 void ACCEL_Task (void)
-{
+{   
+//    ACCEL_XYZ  acc_xyz;
+    ACCEL_XYZf acc_xyzf;
+    
+    ACCELGetXAxis(&acc_xyz.acc_x);
+    ACCELGetYAxis(&acc_xyz.acc_y);
+    ACCELGetZAxis(&acc_xyz.acc_z);
+    
+    acc_xyzf.acc_x = (float) (acc_xyz.acc_x * SENSITIVITY_2G);
+    acc_xyzf.acc_y = (float) (acc_xyz.acc_y * SENSITIVITY_2G);
+    acc_xyzf.acc_z = (float) (acc_xyz.acc_z * SENSITIVITY_2G);
+    
+    while( xQueueOverwrite(xAccelQueue, &acc_xyzf) != pdPASS );
     
 }
 
 
 void LEDcontrol_Tasks ( void )
 {
-    static uint8_t red = 0, green = 0, blue = 0;
-    static bool flag = 0;
-    
-    if (flag == 0) {
-        if (red < 200) red += 4;
-        else flag = 1;
-        
-        if (blue > 1) blue -= 4;
-        
-        if (green > 1) green -= 10;
-        
-    } else if (flag == 1) {
-        if (red > 1) red -= 4;
-        else flag = 0;
-        
-        if (blue < 200) blue += 4;
-        
-        if (green < 200) green += 10;
-    }
-    
-    LEDColorSet(red, green, blue);
-    
+//    static uint8_t red = 0, green = 0, blue = 0;
+//    static bool flag = 0;
+//    
+//    if (flag == 0) {
+//        if (red < 200) red += 4;
+//        else flag = 1;
+//        
+//        if (blue > 1) blue -= 4;
+//        
+//        if (green > 1) green -= 10;
+//        
+//    } else if (flag == 1) {
+//        if (red > 1) red -= 4;
+//        else flag = 0;
+//        
+//        if (blue < 200) blue += 4;
+//        
+//        if (green < 200) green += 10;
+//    }
+//    
+//    LEDColorSet(red, green, blue);
+    LEDColorSet(acc_xyz.acc_x, acc_xyz.acc_y, acc_xyz.acc_z);
 }
 
 /******************************************************************************

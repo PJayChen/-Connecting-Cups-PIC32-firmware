@@ -139,7 +139,9 @@ void SendTemp(void)
 
 void sendAccel(void)
 {   
-    ACCEL_DATA  acc_x, acc_y, acc_z;
+    //ACCEL_DATA  acc_x, acc_y, acc_z;
+    ACCEL_XYZf acc_xyz;
+    
     int BuffSize = 0;
     char Buffer[BUFFER_SIZE] = {0};
     char Buffer2[100]= {0};
@@ -151,16 +153,12 @@ void sendAccel(void)
 //        strcpy(Buffer, "253,");
 //    }
 
-    strcpy(Buffer, "Accel, ");
+    strcpy(Buffer, "A, ");
     
-     // Get the 3-axis acceration
-    //while(ACCELGetXYZAxis(&acc_x, &acc_y, &acc_z) == ACCEL_INVALID);
-    ACCELGetXAxis(&acc_x);
-    ACCELGetYAxis(&acc_y);
-    ACCELGetZAxis(&acc_z);
+    while(xQueueReceive( xAccelQueue, &( acc_xyz ), ( TickType_t ) 10 ) != pdTRUE);
     
     //sprintf(Buffer2, "%d, %d, %d", acc_x, acc_y, acc_z);
-    sprintf(Buffer2, "%d, %d, %d", acc_x, acc_y, acc_z);
+    sprintf(Buffer2, "%f, %f, %f", acc_xyz.acc_x, acc_xyz.acc_y, acc_xyz.acc_z);
     strcat(Buffer, Buffer2);
 
     strcat(Buffer, "\r\n");

@@ -98,11 +98,15 @@ void SYS_Tasks ( void )
 
     /* Create OS Thread for APP Tasks. */
     xTaskCreate((TaskFunction_t) _Bluetooth_Tasks,
-                "APP Tasks",
+                "Bluetooth Tasks",
                 1024, NULL, 1, NULL);
     
     xTaskCreate((TaskFunction_t) _LEDcontrol_Tasks,
                 "LED Tasks",
+                configMINIMAL_STACK_SIZE, NULL, 1, NULL);
+    
+    xTaskCreate((TaskFunction_t) _ACCEL_Tasks,
+                "Accelerometer Tasks",
                 configMINIMAL_STACK_SIZE, NULL, 1, NULL);
 
     /**************
@@ -169,7 +173,13 @@ static void _Bluetooth_Tasks(void)
 
 static void _ACCEL_Tasks(void)
 {
+    
+    xAccelQueue = xQueueCreate(1, sizeof(ACCEL_XYZf) );
+    
+    while(xAccelQueue == 0);
+    
     while(1) {
+        vTaskDelay(50 / portTICK_PERIOD_MS);
         ACCEL_Task();
     }
 }

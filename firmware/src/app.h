@@ -114,11 +114,32 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 /* Application specific NVM functions */
 #include "app_nvm.h"
 
+/* FreeRTOS Library */
+#include "queue.h"
+
+// *****************************************************************************
+// *****************************************************************************
+// Section: FreeRTOS
+// *****************************************************************************
+// *****************************************************************************
+QueueHandle_t xAccelQueue;
+
 // *****************************************************************************
 // *****************************************************************************
 // Section: Constants
 // *****************************************************************************
 // *****************************************************************************
+
+/* Accelerometer BMA250E typical sensitivity
+ * shift right 2 bit because we used 8-bit variable to contain 10-bit accel value.
+ * so ignore 2 LSB bits
+ */
+
+#define SENSITIVITY_2G 0.015625   // 1/(256 >> 2)   <g/LSB>
+#define SENSITIVITY_4G 0.03125    // 1/(128 >> 2)
+#define SENSITIVITY_8G 0.0625     // 1/(64 >> 2)
+#define SENSITIVITY_16G 0.125     // 1/(32 >> 2)
+
 #define APP_BT_PAIRING_STORAGE_SUPPORTED		false
 
 /* BT module reset duration */
@@ -128,6 +149,21 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 // Section: Type Definitions
 // *****************************************************************************
 // *****************************************************************************
+
+
+typedef struct _ACCEL_XYZ
+{
+    ACCEL_DATA acc_x;
+    ACCEL_DATA acc_y;
+    ACCEL_DATA acc_z;
+}ACCEL_XYZ;
+
+typedef struct _ACCEL_XYZf
+{
+    float acc_x;
+    float acc_y;
+    float acc_z;
+}ACCEL_XYZf;
 
 // *****************************************************************************
 /* Application states
@@ -251,6 +287,8 @@ void APP_Initialize ( void );
 /*******************************************************************************
  * 
  */
+
+void ACCEL_Task ( void );
 
 void Bluetooth_Tasks ( void );
 

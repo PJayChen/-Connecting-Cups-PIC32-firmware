@@ -518,7 +518,7 @@ inline void SetRangeAndBandwidth(uint8_t accl_range)
 //    idx = WriteByteSequence(0, ACCEL_BMA250_ADDR14, reg.val);
     idx = WriteByteSequence(0, ACCEL_BMA250_ADDR0F, accl_range);
 //    idx = WriteByteSequence(idx, ACCEL_BMA250_ADDR10, 0x08);
-    idx = WriteByteSequence(idx, ACCEL_BMA250_ADDR10, 0x0f);
+    idx = WriteByteSequence(idx, ACCEL_BMA250_ADDR10, 0x0f); //0x0f, bandwidth 1000Hz, updata time 0.5ms
     accelData[idx].cmd = ACCEL_DONE;
     ACCELStartCommandSequence();
 

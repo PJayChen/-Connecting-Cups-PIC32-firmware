@@ -69,7 +69,7 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 #define SINGLE_CHAR_RED100      'R'
 #define SINGLE_CHAR_GREEN100    'G'
 #define SINGLE_CHAR_BLUE100     'B'
-#define BUFFER_SIZE             20
+#define BUFFER_SIZE             200
 
 // *****************************************************************************
 // *****************************************************************************
