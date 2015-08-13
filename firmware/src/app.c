@@ -131,6 +131,38 @@ void APP_Initialize ( void )
 }
 
 
+void ACCEL_Task (void)
+{
+    
+}
+
+
+void LEDcontrol_Tasks ( void )
+{
+    static uint8_t red = 0, green = 0, blue = 0;
+    static bool flag = 0;
+    
+    if (flag == 0) {
+        if (red < 200) red += 4;
+        else flag = 1;
+        
+        if (blue > 1) blue -= 4;
+        
+        if (green > 1) green -= 10;
+        
+    } else if (flag == 1) {
+        if (red > 1) red -= 4;
+        else flag = 0;
+        
+        if (blue < 200) blue += 4;
+        
+        if (green < 200) green += 10;
+    }
+    
+    LEDColorSet(red, green, blue);
+    
+}
+
 /******************************************************************************
   Function:
     void APP_Tasks ( void )
@@ -139,7 +171,7 @@ void APP_Initialize ( void )
     See prototype in app.h.
  */
 
-void APP_Tasks ( void )
+void Bluetooth_Tasks ( void )
 {
    switch(appData.state)
     {

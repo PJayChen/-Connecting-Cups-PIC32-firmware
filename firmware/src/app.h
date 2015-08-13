@@ -249,36 +249,12 @@ void APP_Initialize ( void );
 
 
 /*******************************************************************************
-  Function:
-    void APP_Tasks ( void )
-
-  Summary:
-    MPLAB Harmony Demo application tasks function
-
-  Description:
-    This routine is the Harmony Demo application's tasks function.  It
-    defines the application's state machine and core logic.
-
-  Precondition:
-    The system and application initialization ("SYS_Initialize") should be
-    called before calling this.
-
-  Parameters:
-    None.
-
-  Returns:
-    None.
-
-  Example:
-    <code>
-    APP_Tasks();
-    </code>
-
-  Remarks:
-    This routine must be called from SYS_Tasks() routine.
+ * 
  */
 
-void APP_Tasks ( void );
+void Bluetooth_Tasks ( void );
+
+void LEDcontrol_Tasks ( void );
 
 /*******************************************************************************
   Function:

@@ -64,10 +64,10 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 // *****************************************************************************
  
 static void _SYS_Tasks ( void );
-void _SYS_TMR_Tasks(void);
-static void _APP_Tasks(void);
+void _SYS_TMR_Tasks (void);
+static void _Bluetooth_Tasks (void);
 static void _LEDcontrol_Tasks ( void );
-
+static void _ACCEL_Tasks (void);
 // *****************************************************************************
 // *****************************************************************************
 // Section: System "Tasks" Routine
@@ -97,7 +97,7 @@ void SYS_Tasks ( void )
                 configMINIMAL_STACK_SIZE, NULL, 2, NULL);
 
     /* Create OS Thread for APP Tasks. */
-    xTaskCreate((TaskFunction_t) _APP_Tasks,
+    xTaskCreate((TaskFunction_t) _Bluetooth_Tasks,
                 "APP Tasks",
                 1024, NULL, 1, NULL);
     
@@ -156,41 +156,22 @@ void _SYS_TMR_Tasks(void)
     Maintains state machine of APP.
 */
 
-static void _APP_Tasks(void)
+static void _Bluetooth_Tasks(void)
 {
     while(1)
     {
         //vTaskDelay(1000 / portTICK_PERIOD_MS);
-        APP_Tasks();
+        Bluetooth_Tasks();
         
     }
 }
 
 
-static void LEDcontrol_Tasks ( void )
+static void _ACCEL_Tasks(void)
 {
-    static uint8_t red = 0, green = 0, blue = 0;
-    static bool flag = 0;
-    
-    if (flag == 0) {
-        if (red < 200) red += 4;
-        else flag = 1;
-        
-        if (blue > 1) blue -= 4;
-        
-        if (green > 1) green -= 10;
-        
-    } else if (flag == 1) {
-        if (red > 1) red -= 4;
-        else flag = 0;
-        
-        if (blue < 200) blue += 4;
-        
-        if (green < 200) green += 10;
+    while(1) {
+        ACCEL_Task();
     }
-    
-    LEDColorSet(red, green, blue);
-    
 }
 
 static void _LEDcontrol_Tasks ( void )
