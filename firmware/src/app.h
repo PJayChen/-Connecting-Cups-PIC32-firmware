@@ -123,6 +123,7 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 // *****************************************************************************
 // *****************************************************************************
 QueueHandle_t xAccelQueue;
+QueueHandle_t xAccelRawQueue;
 
 // *****************************************************************************
 // *****************************************************************************
@@ -140,6 +141,8 @@ QueueHandle_t xAccelQueue;
 #define SENSITIVITY_8G 0.0625     // 1/(64 >> 2)
 #define SENSITIVITY_16G 0.125     // 1/(32 >> 2)
 
+#define RADIANS_TO_DEGREES  57.29582791f // 180/3.14159f
+
 #define APP_BT_PAIRING_STORAGE_SUPPORTED		false
 
 /* BT module reset duration */
@@ -156,7 +159,7 @@ typedef struct _ACCEL_XYZ
     ACCEL_DATA acc_x;
     ACCEL_DATA acc_y;
     ACCEL_DATA acc_z;
-}ACCEL_XYZ;
+}ACCEL_XYZ_RAW;
 
 typedef struct _ACCEL_XYZf
 {

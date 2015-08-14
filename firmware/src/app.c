@@ -130,26 +130,27 @@ void APP_Initialize ( void )
     AccelInit();
 }
 
-ACCEL_XYZ  acc_xyz;
-void ACCEL_Task (void)
+
+__attribute__((always_inline)) void ACCEL_Task (void)
 {   
-//    ACCEL_XYZ  acc_xyz;
+    ACCEL_XYZ_RAW  acc_xyz_raw;
     ACCEL_XYZf acc_xyzf;
     
-    ACCELGetXAxis(&acc_xyz.acc_x);
-    ACCELGetYAxis(&acc_xyz.acc_y);
-    ACCELGetZAxis(&acc_xyz.acc_z);
+    ACCELGetXAxis(&acc_xyz_raw.acc_x);
+    ACCELGetYAxis(&acc_xyz_raw.acc_y);
+    ACCELGetZAxis(&acc_xyz_raw.acc_z);
     
-    acc_xyzf.acc_x = (float) (acc_xyz.acc_x * SENSITIVITY_2G);
-    acc_xyzf.acc_y = (float) (acc_xyz.acc_y * SENSITIVITY_2G);
-    acc_xyzf.acc_z = (float) (acc_xyz.acc_z * SENSITIVITY_2G);
+    acc_xyzf.acc_x = (float) (acc_xyz_raw.acc_x * SENSITIVITY_2G);
+    acc_xyzf.acc_y = (float) (acc_xyz_raw.acc_y * SENSITIVITY_2G);
+    acc_xyzf.acc_z = (float) (acc_xyz_raw.acc_z * SENSITIVITY_2G);
     
     while( xQueueOverwrite(xAccelQueue, &acc_xyzf) != pdPASS );
+    while( xQueueOverwrite(xAccelRawQueue, &acc_xyz_raw) != pdPASS );
     
 }
 
 
-void LEDcontrol_Tasks ( void )
+__attribute__((always_inline)) void LEDcontrol_Tasks ( void )
 {
 //    static uint8_t red = 0, green = 0, blue = 0;
 //    static bool flag = 0;
@@ -172,7 +173,9 @@ void LEDcontrol_Tasks ( void )
 //    }
 //    
 //    LEDColorSet(red, green, blue);
-    LEDColorSet(acc_xyz.acc_x, acc_xyz.acc_y, acc_xyz.acc_z);
+    ACCEL_XYZ_RAW  acc_xyz_raw;
+    while(xQueuePeek( xAccelRawQueue, &( acc_xyz_raw ), ( TickType_t ) 10 ) != pdTRUE);
+    LEDColorSet(acc_xyz_raw.acc_x, acc_xyz_raw.acc_y, acc_xyz_raw.acc_z);
 }
 
 /******************************************************************************
@@ -183,7 +186,7 @@ void LEDcontrol_Tasks ( void )
     See prototype in app.h.
  */
 
-void Bluetooth_Tasks ( void )
+__attribute__((always_inline)) void Bluetooth_Tasks ( void )
 {
    switch(appData.state)
     {

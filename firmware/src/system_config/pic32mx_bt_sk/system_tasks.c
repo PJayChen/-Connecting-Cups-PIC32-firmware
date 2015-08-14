@@ -174,9 +174,8 @@ static void _Bluetooth_Tasks(void)
 static void _ACCEL_Tasks(void)
 {
     
-    xAccelQueue = xQueueCreate(1, sizeof(ACCEL_XYZf) );
-    
-    while(xAccelQueue == 0);
+    while( (xAccelQueue = xQueueCreate(1, sizeof(ACCEL_XYZf)) ) == 0);
+    while( (xAccelRawQueue = xQueueCreate(1, sizeof(ACCEL_XYZ_RAW)) ) == 0);
     
     while(1) {
         vTaskDelay(50 / portTICK_PERIOD_MS);
@@ -187,7 +186,7 @@ static void _ACCEL_Tasks(void)
 static void _LEDcontrol_Tasks ( void )
 {
     while (1) {
-        vTaskDelay(50 / portTICK_PERIOD_MS);
+        vTaskDelay(100 / portTICK_PERIOD_MS);
         LEDcontrol_Tasks();
     }
     
