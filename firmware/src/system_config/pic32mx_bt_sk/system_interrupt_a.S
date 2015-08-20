@@ -153,6 +153,76 @@ _IntHandlerSysDmaInstance1:
     portRESTORE_CONTEXT
     .end	_IntHandlerSysDmaInstance1
 
+
+/* Sytem DMA Instance 2 Interrupt */
+
+   .extern  IntHandlerSysDmaInstance2
+
+   .section	.vector_41,code, keep
+   .equ     __vector_dispatch_41, IntVectorSysDmaInstance2
+   .global  __vector_dispatch_41
+   .set     nomicromips
+   .set     noreorder
+   .set     nomips16
+   .set     noat
+   .ent  IntVectorSysDmaInstance2
+
+IntVectorSysDmaInstance2:
+    la    $26,  _IntHandlerSysDmaInstance2         
+    jr    $26
+    nop
+	.end	IntVectorSysDmaInstance2
+
+   .section	.SysDmaInstance2_vector_text, code, keep
+   .set     nomicromips
+   .set     noreorder
+   .set     nomips16
+   .set     noat
+   .ent  _IntHandlerSysDmaInstance2
+
+_IntHandlerSysDmaInstance2:
+    portSAVE_CONTEXT
+    la    s6,  IntHandlerSysDmaInstance2
+    jalr  s6
+    nop
+    portRESTORE_CONTEXT
+    .end	_IntHandlerSysDmaInstance2
+
+
+/* Sytem DMA Instance 3 Interrupt */
+
+   .extern  IntHandlerSysDmaInstance3
+
+   .section	.vector_42,code, keep
+   .equ     __vector_dispatch_42, IntVectorSysDmaInstance3
+   .global  __vector_dispatch_42
+   .set     nomicromips
+   .set     noreorder
+   .set     nomips16
+   .set     noat
+   .ent  IntVectorSysDmaInstance3
+
+IntVectorSysDmaInstance3:
+    la    $26,  _IntHandlerSysDmaInstance3         
+    jr    $26
+    nop
+	.end	IntVectorSysDmaInstance3
+
+   .section	.SysDmaInstance3_vector_text, code, keep
+   .set     nomicromips
+   .set     noreorder
+   .set     nomips16
+   .set     noat
+   .ent  _IntHandlerSysDmaInstance3
+
+_IntHandlerSysDmaInstance3:
+    portSAVE_CONTEXT
+    la    s6,  IntHandlerSysDmaInstance3
+    jalr  s6
+    nop
+    portRESTORE_CONTEXT
+    .end	_IntHandlerSysDmaInstance3
+
 /*******************************************************************************
  End of File
  */

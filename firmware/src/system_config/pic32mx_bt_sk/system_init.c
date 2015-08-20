@@ -151,6 +151,27 @@ const DRV_USART_INIT drvUsart0InitData =
     .dmaInterruptReceive = DRV_USART_RCV_DMA_INT_SRC_IDX0
 };
 
+const DRV_USART_INIT drvUsart1InitData =
+{
+    .moduleInit.value = DRV_USART_POWER_STATE_IDX1,
+    .usartID = DRV_USART_PERIPHERAL_ID_IDX1, 
+    .mode = DRV_USART_OPER_MODE_IDX1,
+    .modeData.AddressedModeInit.address = DRV_USART_OPER_MODE_DATA_IDX1,
+    .flags = DRV_USART_INIT_FLAGS_IDX1,
+    .brgClock = DRV_USART_BRG_CLOCK_IDX1,
+    .lineControl = DRV_USART_LINE_CNTRL_IDX1,
+    .baud = DRV_USART_BAUD_RATE_IDX1,
+    .handshake = DRV_USART_HANDSHAKE_MODE_IDX1,
+    .interruptTransmit = DRV_USART_XMIT_INT_SRC_IDX1,
+    .interruptReceive = DRV_USART_RCV_INT_SRC_IDX1,
+    .queueSizeTransmit = DRV_USART_XMIT_QUEUE_SIZE_IDX1,
+    .queueSizeReceive = DRV_USART_RCV_QUEUE_SIZE_IDX1,
+    .dmaChannelTransmit = DRV_USART_XMIT_DMA_CH_IDX1,
+    .dmaInterruptTransmit = DRV_USART_XMIT_DMA_INT_SRC_IDX1,    
+    .dmaChannelReceive = DRV_USART_RCV_DMA_CH_IDX1,
+    .dmaInterruptReceive = DRV_USART_RCV_DMA_INT_SRC_IDX1    
+};
+
 // </editor-fold>
 //<editor-fold defaultstate="collapsed" desc="SYS_TMR Initialization Data">
 /*** TMR Service Initialization Data ***/
@@ -241,9 +262,15 @@ void SYS_Initialize ( void* data )
     SYS_INT_VectorSubprioritySet(INT_VECTOR_DMA0, INT_SUBPRIORITY_LEVEL1);
     SYS_INT_VectorPrioritySet(INT_VECTOR_DMA3, INT_PRIORITY_LEVEL5);
     SYS_INT_VectorSubprioritySet(INT_VECTOR_DMA3, INT_SUBPRIORITY_LEVEL0);
+    SYS_INT_VectorPrioritySet(INT_VECTOR_DMA1, INT_PRIORITY_LEVEL4);
+    SYS_INT_VectorSubprioritySet(INT_VECTOR_DMA1, INT_SUBPRIORITY_LEVEL1);
+    SYS_INT_VectorPrioritySet(INT_VECTOR_DMA2, INT_PRIORITY_LEVEL5);
+    SYS_INT_VectorSubprioritySet(INT_VECTOR_DMA2, INT_SUBPRIORITY_LEVEL0);
 
     SYS_INT_SourceEnable(INT_SOURCE_DMA_0);
     SYS_INT_SourceEnable(INT_SOURCE_DMA_3);
+    SYS_INT_SourceEnable(INT_SOURCE_DMA_1);
+    SYS_INT_SourceEnable(INT_SOURCE_DMA_2);
 
 
 
@@ -262,12 +289,18 @@ void SYS_Initialize ( void* data )
  
 
     sysObj.drvUsart0 = DRV_USART_Initialize(DRV_USART_INDEX_0, (SYS_MODULE_INIT *)&drvUsart0InitData);
+    sysObj.drvUsart1 = DRV_USART_Initialize(DRV_USART_INDEX_1, (SYS_MODULE_INIT *)&drvUsart1InitData);
+    
+    while(SYS_MODULE_OBJ_INVALID == sysObj.drvUsart1);
+    
+    SYS_INT_VectorPrioritySet(INT_VECTOR_UART1, INT_PRIORITY_LEVEL4);
+    SYS_INT_VectorSubprioritySet(INT_VECTOR_UART1, INT_SUBPRIORITY_LEVEL0);
     
     /* Initialize System Services */
     SYS_INT_Initialize();  
 
-	SYS_INT_SourceEnable(INT_SOURCE_DMA_0);
-	SYS_INT_SourceEnable(INT_SOURCE_DMA_3);
+//	SYS_INT_SourceEnable(INT_SOURCE_DMA_0);
+//	SYS_INT_SourceEnable(INT_SOURCE_DMA_3);
 
 
 

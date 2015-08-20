@@ -158,11 +158,11 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 #define DRV_USART_BYTE_MODEL_SUPPORT                false
 #define DRV_USART_READ_WRITE_MODEL_SUPPORT          true
 #define DRV_USART_BUFFER_QUEUE_SUPPORT              true
-#define DRV_USART_QUEUE_DEPTH_COMBINED              2
-#define DRV_USART_CLIENTS_NUMBER                    1
+#define DRV_USART_QUEUE_DEPTH_COMBINED              4
+#define DRV_USART_CLIENTS_NUMBER                    2
 #define DRV_USART_SUPPORT_TRANSMIT_DMA              true
 #define DRV_USART_SUPPORT_RECEIVE_DMA               true
-#define DRV_USART_INSTANCES_NUMBER                  1
+#define DRV_USART_INSTANCES_NUMBER                  2
 
 #define DRV_USART_PERIPHERAL_ID_IDX0                USART_ID_2
 #define DRV_USART_OPER_MODE_IDX0                    DRV_USART_OPERATION_MODE_NORMAL
@@ -185,6 +185,28 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 #define DRV_USART_RCV_DMA_CH_IDX0                   DMA_CHANNEL_3
 #define DRV_USART_RCV_DMA_INT_SRC_IDX0              INT_SOURCE_DMA_3
 #define DRV_USART_POWER_STATE_IDX0                  SYS_MODULE_POWER_RUN_FULL
+
+#define DRV_USART_PERIPHERAL_ID_IDX1                USART_ID_1
+#define DRV_USART_OPER_MODE_IDX1                    DRV_USART_OPERATION_MODE_NORMAL
+#define DRV_USART_OPER_MODE_DATA_IDX1               0x00
+#define DRV_USART_INIT_FLAG_WAKE_ON_START_IDX1      false
+#define DRV_USART_INIT_FLAG_AUTO_BAUD_IDX1          false
+#define DRV_USART_INIT_FLAG_STOP_IN_IDLE_IDX1       false
+#define DRV_USART_INIT_FLAGS_IDX1                   0
+#define DRV_USART_BRG_CLOCK_IDX1                    48000000
+#define DRV_USART_BAUD_RATE_IDX1                    9600
+#define DRV_USART_LINE_CNTRL_IDX1                   DRV_USART_LINE_CONTROL_8NONE1
+#define DRV_USART_HANDSHAKE_MODE_IDX1               DRV_USART_HANDSHAKE_FLOWCONTROL
+#define DRV_USART_XMIT_INT_SRC_IDX1                 INT_SOURCE_USART_1_TRANSMIT
+#define DRV_USART_RCV_INT_SRC_IDX1                  INT_SOURCE_USART_1_RECEIVE
+#define DRV_USART_ERR_INT_SRC_IDX1                  INT_SOURCE_USART_1_ERROR
+#define DRV_USART_XMIT_QUEUE_SIZE_IDX1              1
+#define DRV_USART_RCV_QUEUE_SIZE_IDX1               1
+#define DRV_USART_XMIT_DMA_CH_IDX1                  DMA_CHANNEL_1
+#define DRV_USART_XMIT_DMA_INT_SRC_IDX1                INT_SOURCE_DMA_1
+#define DRV_USART_RCV_DMA_CH_IDX1                DMA_CHANNEL_2
+#define DRV_USART_RCV_DMA_INT_SRC_IDX1                INT_SOURCE_DMA_2
+#define DRV_USART_POWER_STATE_IDX1                  SYS_MODULE_POWER_RUN_FULL
 
 
 // *****************************************************************************

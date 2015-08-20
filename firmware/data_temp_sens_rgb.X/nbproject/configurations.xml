@@ -323,7 +323,7 @@
         <property key="enable-unroll-loops" value="false"/>
         <property key="exclude-floating-point" value="false"/>
         <property key="extra-include-directories"
-                  value="../src;../src/system_config;../src/system_config/pic32mx_bt_sk;../../../../../../framework;../../../../../../framework/bluetooth;../../../../../../framework/driver/usart;../../../../../../framework/driver;../../../../../../framework/system/clk;../../../../../../framework/system/clk/src;../../../../../../framework/system/common;../../../../../../framework/system/devcon;../../../../../../framework/system/dma;../../../../../../framework/system/int;../../../../../../framework/system/ports;../../../../../../framework/system/tmr;../../../../../../framework/system;../../../../../../framework/bluetooth/config;../src/application;../src/application/bt;../src/application/bt/btapp_spp;../src/application/rgb_led;../src/application/temp_sens;../src/system_config/pic32mx_bt_sk/framework;../../../../../../bsp/pic32mx_bt_sk;../../../../../../third_party/rtos/FreeRTOS/Source/portable/MPLAB/PIC32MX;../../../../../../third_party/rtos/FreeRTOS/Source/include"/>
+                  value="../src;../src/system_config;../../../../../../framework;../../../../../../framework/bluetooth;../../../../../../framework/driver/usart;../../../../../../framework/driver;../../../../../../framework/system/clk;../../../../../../framework/system/clk/src;../../../../../../framework/system/common;../../../../../../framework/system/devcon;../../../../../../framework/system/dma;../../../../../../framework/system/int;../../../../../../framework/system/ports;../../../../../../framework/system/tmr;../../../../../../framework/system;../../../../../../framework/bluetooth/config;../src/application;../src/application/bt;../src/application/bt/btapp_spp;../src/application/rgb_led;../src/application/temp_sens;../src/system_config/pic32mx_bt_sk/framework;../src/system_config/pic32mx_bt_sk;../../../../../../bsp/pic32mx_bt_sk;../../../../../../third_party/rtos/FreeRTOS/Source/portable/MPLAB/PIC32MX;../../../../../../third_party/rtos/FreeRTOS/Source/include"/>
         <property key="generate-16-bit-code" value="false"/>
         <property key="generate-micro-compressed-code" value="false"/>
         <property key="isolate-each-function" value="true"/>
@@ -343,8 +343,7 @@
         <property key="additional-options-chop-files" value="false"/>
       </C32-AR>
       <C32-AS>
-        <property key="extra-include-directories-for-assembler"
-                  value="../../../../../../third_party/rtos/FreeRTOS/Source/portable/MPLAB/PIC32MX;../../../../../../third_party/rtos/FreeRTOS/Source/include;../src/system_config/pic32mx_bt_sk"/>
+        <property key="extra-include-directories-for-assembler" value=""/>
         <property key="extra-include-directories-for-preprocessor"
                   value="../../../../../../third_party/rtos/FreeRTOS/Source/portable/MPLAB/PIC32MX;../../../../../../third_party/rtos/FreeRTOS/Source/include;../src/system_config/pic32mx_bt_sk"/>
       </C32-AS>

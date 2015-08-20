@@ -94,6 +94,22 @@ void IntHandlerSysDmaInstance1(void)
 }
 
 
+void IntHandlerSysDmaInstance2(void)
+{          
+
+    SYS_DMA_TasksISR(sysObj.sysDma, DMA_CHANNEL_1);
+
+}
+
+
+void IntHandlerSysDmaInstance3(void)
+{          
+
+    SYS_DMA_TasksISR(sysObj.sysDma, DMA_CHANNEL_2);
+
+}
+
+
  
 /*******************************************************************************
  End of File

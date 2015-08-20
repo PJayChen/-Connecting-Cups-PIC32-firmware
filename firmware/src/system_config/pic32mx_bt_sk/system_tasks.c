@@ -68,6 +68,7 @@ void _SYS_TMR_Tasks (void);
 static void _Bluetooth_Tasks (void);
 static void _LEDcontrol_Tasks ( void );
 static void _ACCEL_Tasks (void);
+static void _shell_Tasks (void);
 // *****************************************************************************
 // *****************************************************************************
 // Section: System "Tasks" Routine
@@ -108,6 +109,10 @@ void SYS_Tasks ( void )
     xTaskCreate((TaskFunction_t) _ACCEL_Tasks,
                 "Accelerometer Tasks",
                 configMINIMAL_STACK_SIZE, NULL, 1, NULL);
+    
+    xTaskCreate((TaskFunction_t) _shell_Tasks,
+                "Shell Tasks",
+                configMINIMAL_STACK_SIZE, NULL, 1, NULL);
 
     /**************
      * Start RTOS * 
@@ -139,7 +144,7 @@ static void _SYS_Tasks ( void )
         /* Maintain Middleware */
 
         /* Task Delay */
-        vTaskDelay(1000 / portTICK_PERIOD_MS);
+        vTaskDelay(100 / portTICK_PERIOD_MS);
     }
 }
 
@@ -192,6 +197,48 @@ static void _LEDcontrol_Tasks ( void )
     
 }
 
+
+void shellUSARTBufferEventHandler(DRV_USART_BUFFER_EVENT event, DRV_USART_BUFFER_HANDLE bufferHandle, uintptr_t contextHandle)
+{
+    
+}
+
+static void _shell_Tasks (void)
+{
+    APP_USART_CLIENT usartClient;
+    const char outStr[6] = "Test\n";
+    
+    /* Open a USART client and setup the buffer event handler */
+    usartClient.handle = DRV_USART_Open(DRV_USART_INDEX_1,
+                DRV_IO_INTENT_READWRITE|DRV_IO_INTENT_NONBLOCKING);
+    if(usartClient.handle != DRV_HANDLE_INVALID)
+    {
+        if(DRV_USART_CLIENT_STATUS_READY == DRV_USART_ClientStatus(usartClient.handle))
+        {
+            DRV_USART_BufferEventHandlerSet(usartClient.handle,
+            (const DRV_USART_BUFFER_EVENT_HANDLER)shellUSARTBufferEventHandler,
+                (const uintptr_t)&usartClient.context);
+        }
+        else
+        {
+            SYS_DEBUG(0, "USART Driver Not Ready");
+        }
+    }
+    else
+    {
+        ;
+    }
+    
+    
+    while (1) {
+        char getChar = '\0';
+        DRV_USART_BufferAddRead(usartClient.handle, &usartClient.readBufHandle, &getChar, 1);
+        if (getChar != '\0'){
+            DRV_USART_BufferAddWrite(usartClient.handle, &usartClient.writeBufHandle, &getChar, 1);
+        }
+        vTaskDelay(1000 / portTICK_PERIOD_MS);
+    }
+}
 /*******************************************************************************
  End of File
  */
