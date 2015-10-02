@@ -162,6 +162,9 @@ void _SYS_TMR_Tasks(void)
 
 static void _Bluetooth_Tasks(void)
 {
+    
+    while( (xAccelDataReceivedFromBTQueue = xQueueCreate(1, sizeof(ACCEL_XYZ_RAW)) ) == 0);
+    
     while(1)
     {
         //vTaskDelay(1000 / portTICK_PERIOD_MS);

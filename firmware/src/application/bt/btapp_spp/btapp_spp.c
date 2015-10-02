@@ -140,8 +140,9 @@ void SendTemp(void)
 void sendAccel(void)
 {   
     //ACCEL_DATA  acc_x, acc_y, acc_z;
-    ACCEL_XYZf acc_xyz;
-    
+//    ACCEL_XYZf acc_xyz;
+    ACCEL_XYZ_RAW acc_xyz_raw;
+             
     int BuffSize = 0;
     char Buffer[BUFFER_SIZE] = {0};
     char Buffer2[100]= {0};
@@ -153,12 +154,13 @@ void sendAccel(void)
 //        strcpy(Buffer, "253,");
 //    }
 
-    strcpy(Buffer, "A, ");
+    strcpy(Buffer, "777,");
     
-    while(xQueueReceive( xAccelQueue, &( acc_xyz ), ( TickType_t ) 10 ) != pdTRUE);
-    
-    //sprintf(Buffer2, "%d, %d, %d", acc_x, acc_y, acc_z);
-    sprintf(Buffer2, "%f, %f, %f", acc_xyz.acc_x, acc_xyz.acc_y, acc_xyz.acc_z);
+//    while(xQueueReceive( xAccelQueue, &( acc_xyz ), ( TickType_t ) 10 ) != pdTRUE);
+    while(xQueueReceive( xAccelRawQueue, &( acc_xyz_raw ), ( TickType_t ) 10 ) != pdTRUE);
+        
+//    sprintf(Buffer2, "%f, %f, %f", acc_xyz.acc_x, acc_xyz.acc_y, acc_xyz.acc_z);
+    sprintf(Buffer2, "%d,%d,%d,%d", 3, acc_xyz_raw.acc_x, acc_xyz_raw.acc_y, acc_xyz_raw.acc_z);
     strcat(Buffer, Buffer2);
 
     strcat(Buffer, "\r\n");
@@ -246,6 +248,7 @@ static void processReceivedData(void)
     memcpy(CommandBuff, mRxBuffer, bytesReceived);
     mSending = 0;
 /*******************************************************************************/
+    
     sscanf(CommandBuff, "%d,%d,%d,%d,%d", &Command, &Size, &Red, &Green, &Blue);
 /*if command (255,3,R,G,B) is received the led is set according to the hue of RGB*/
         if(Command == RGB_LED_COLOR)
@@ -288,6 +291,16 @@ static void processReceivedData(void)
                 mTempCallbackRate = Size;
                 mRateChange = BT_TRUE;
         }
+        else if (Command == ACCEL_XYZ_RAW_MSG)
+        {
+            //Red, Green, Blue are map to accel_x, accel_y, accel_z
+            ACCEL_XYZ_RAW xyz_raw;
+             xyz_raw.acc_x = Red;
+            xyz_raw.acc_y = Green;
+            xyz_raw.acc_z = Blue;
+            while( xQueueOverwrite(xAccelDataReceivedFromBTQueue, &xyz_raw) != pdPASS );
+        }
+    
         /* For Single Char LED Control */
     /*If characters 'R','G','B','r','g' and 'b' is received the led color is changed accordingly*/
         sscanf(CommandBuff, "%c", &CharCommand);

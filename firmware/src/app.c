@@ -174,7 +174,8 @@ __attribute__((always_inline)) void LEDcontrol_Tasks ( void )
 //    
 //    LEDColorSet(red, green, blue);
     ACCEL_XYZ_RAW  acc_xyz_raw;
-    while(xQueuePeek( xAccelRawQueue, &( acc_xyz_raw ), ( TickType_t ) 10 ) != pdTRUE);
+//    while(xQueuePeek( xAccelRawQueue, &( acc_xyz_raw ), ( TickType_t ) 10 ) != pdTRUE);
+    while(xQueuePeek( xAccelDataReceivedFromBTQueue, &( acc_xyz_raw ), ( TickType_t ) 10 ) != pdTRUE);    
     LEDColorSet(acc_xyz_raw.acc_x, acc_xyz_raw.acc_y, acc_xyz_raw.acc_z);
 }
 

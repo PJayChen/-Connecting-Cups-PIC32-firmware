@@ -62,6 +62,10 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 #define TEMP_CALLBACK_RATE_ADDR 0xFC  /* Command to change the default time
                                          interval to send spp data to terminal
                                          emulator */
+#define ACCEL_XYZ_RAW_MSG           777  /* Command represent that the message  
+                                        is accelerometer raw values.
+                                     */
+
 #define TEMP_TYPE_REG           251
 #define SINGLE_CHAR_RED50       'r'
 #define SINGLE_CHAR_GREEN50     'g'

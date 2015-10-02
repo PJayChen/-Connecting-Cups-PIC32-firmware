@@ -124,6 +124,7 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 // *****************************************************************************
 QueueHandle_t xAccelQueue;
 QueueHandle_t xAccelRawQueue;
+QueueHandle_t xAccelDataReceivedFromBTQueue;
 
 // *****************************************************************************
 // *****************************************************************************
