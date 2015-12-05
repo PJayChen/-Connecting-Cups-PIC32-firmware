@@ -177,11 +177,11 @@ static void _Bluetooth_Tasks(void)
 static void _ACCEL_Tasks(void)
 {
     
-    while( (xAccelQueue = xQueueCreate(1, sizeof(ACCEL_XYZf)) ) == 0);
-    while( (xAccelRawQueue = xQueueCreate(1, sizeof(ACCEL_XYZ_RAW)) ) == 0);
+//    while( (xAccelQueue = xQueueCreate(1, sizeof(ACCEL_XYZf)) ) == 0);
+    while( (xAccelRawQueue = xQueueCreate(50, sizeof(ACCEL_XYZ_RAW)) ) == 0);
     
     while(1) {
-        vTaskDelay(50 / portTICK_PERIOD_MS);
+        vTaskDelay(10 / portTICK_PERIOD_MS);
         ACCEL_Task();
     }
 }

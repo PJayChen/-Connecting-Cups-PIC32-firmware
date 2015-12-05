@@ -139,29 +139,22 @@ void SendTemp(void)
 
 void sendAccel(void)
 {   
-    //ACCEL_DATA  acc_x, acc_y, acc_z;
-//    ACCEL_XYZf acc_xyz;
     ACCEL_XYZ_RAW acc_xyz_raw;
-             
+    
+    int i = 0;         
     int BuffSize = 0;
-    char Buffer[BUFFER_SIZE] = {0};
+    char Buffer[500] = {0};
     char Buffer2[100]= {0};
     
-//    if (mRateChange == BT_TRUE) {
-//        strcpy(Buffer, "252,");
-//        mRateChange = BT_FALSE;
-//    } else {
-//        strcpy(Buffer, "253,");
-//    }
-
-    strcpy(Buffer, "777,");
+    //starting char
+    strcpy(Buffer, ";");
     
-//    while(xQueueReceive( xAccelQueue, &( acc_xyz ), ( TickType_t ) 10 ) != pdTRUE);
-    while(xQueueReceive( xAccelRawQueue, &( acc_xyz_raw ), ( TickType_t ) 10 ) != pdTRUE);
-        
-//    sprintf(Buffer2, "%f, %f, %f", acc_xyz.acc_x, acc_xyz.acc_y, acc_xyz.acc_z);
-    sprintf(Buffer2, "%d,%d,%d,%d", 3, acc_xyz_raw.acc_x, acc_xyz_raw.acc_y, acc_xyz_raw.acc_z);
-    strcat(Buffer, Buffer2);
+    //25 accel values per burst
+    for (i = 0; i < 25; i++) {
+        while(xQueueReceiveFromISR( xAccelRawQueue, &( acc_xyz_raw ), NULL ) != pdTRUE);
+        sprintf(Buffer2, "%d,%d,%d;", acc_xyz_raw.acc_x, acc_xyz_raw.acc_y, acc_xyz_raw.acc_z);
+        strcat(Buffer, Buffer2);
+    }
 
     strcat(Buffer, "\r\n");
 

@@ -152,7 +152,7 @@ typedef union
     {
         uint8_t new_data_x :1;
         uint8_t :5;
-        uint8_t acc_x :2;
+        uint8_t acc_x_2 :2;
     } ;
 
     //Address 0x03
@@ -166,7 +166,7 @@ typedef union
     {
         uint8_t new_data_y :1;
         uint8_t :5;
-        uint8_t acc_y :2;
+        uint8_t acc_y_2 :2;
     } __attribute__((packed));
 
     //Address 0x05
@@ -180,7 +180,7 @@ typedef union
     {
         uint8_t new_data_z :1;
         uint8_t :5;
-        uint8_t acc_z :2;
+        uint8_t acc_z_2 :2;
     };
 
     //Address 0x07

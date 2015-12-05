@@ -134,49 +134,51 @@ void APP_Initialize ( void )
 __attribute__((always_inline)) void ACCEL_Task (void)
 {   
     ACCEL_XYZ_RAW  acc_xyz_raw;
-    ACCEL_XYZf acc_xyzf;
+    //ACCEL_XYZf acc_xyzf;
     
     ACCELGetXAxis(&acc_xyz_raw.acc_x);
     ACCELGetYAxis(&acc_xyz_raw.acc_y);
     ACCELGetZAxis(&acc_xyz_raw.acc_z);
     
-    acc_xyzf.acc_x = (float) (acc_xyz_raw.acc_x * SENSITIVITY_2G);
-    acc_xyzf.acc_y = (float) (acc_xyz_raw.acc_y * SENSITIVITY_2G);
-    acc_xyzf.acc_z = (float) (acc_xyz_raw.acc_z * SENSITIVITY_2G);
+//    acc_xyzf.acc_x = (float) (acc_xyz_raw.acc_x * SENSITIVITY_2G);
+//    acc_xyzf.acc_y = (float) (acc_xyz_raw.acc_y * SENSITIVITY_2G);
+//    acc_xyzf.acc_z = (float) (acc_xyz_raw.acc_z * SENSITIVITY_2G);
     
-    while( xQueueOverwrite(xAccelQueue, &acc_xyzf) != pdPASS );
-    while( xQueueOverwrite(xAccelRawQueue, &acc_xyz_raw) != pdPASS );
+//    while( xQueueOverwrite(xAccelQueue, &acc_xyzf) != pdPASS );
+    while( xQueueSend(xAccelRawQueue, &acc_xyz_raw, 10 / portTICK_PERIOD_MS) != pdPASS );
     
 }
 
 
 __attribute__((always_inline)) void LEDcontrol_Tasks ( void )
 {
-//    static uint8_t red = 0, green = 0, blue = 0;
-//    static bool flag = 0;
-//    
-//    if (flag == 0) {
-//        if (red < 200) red += 4;
-//        else flag = 1;
-//        
-//        if (blue > 1) blue -= 4;
-//        
-//        if (green > 1) green -= 10;
-//        
-//    } else if (flag == 1) {
-//        if (red > 1) red -= 4;
-//        else flag = 0;
-//        
-//        if (blue < 200) blue += 4;
-//        
-//        if (green < 200) green += 10;
-//    }
-//    
-//    LEDColorSet(red, green, blue);
-    ACCEL_XYZ_RAW  acc_xyz_raw;
+    static uint8_t red = 0, green = 0, blue = 0;
+    static bool flag = 0;
+    
+    if (flag == 0) {
+        if (red < 200) red += 4;
+        else flag = 1;
+        
+        if (blue > 1) blue -= 4;
+        
+        if (green > 1) green -= 10;
+        
+    } else if (flag == 1) {
+        if (red > 1) red -= 4;
+        else flag = 0;
+        
+        if (blue < 200) blue += 4;
+        
+        if (green < 200) green += 10;
+    }
+    
+    LEDColorSet(red, green, blue);
+    
+    
+//    ACCEL_XYZ_RAW  acc_xyz_raw;
 //    while(xQueuePeek( xAccelRawQueue, &( acc_xyz_raw ), ( TickType_t ) 10 ) != pdTRUE);
-    while(xQueuePeek( xAccelDataReceivedFromBTQueue, &( acc_xyz_raw ), ( TickType_t ) 10 ) != pdTRUE);    
-    LEDColorSet(acc_xyz_raw.acc_x, acc_xyz_raw.acc_y, acc_xyz_raw.acc_z);
+//    while(xQueuePeek( xAccelDataReceivedFromBTQueue, &( acc_xyz_raw ), ( TickType_t ) 10 ) != pdTRUE);    
+//    LEDColorSet(acc_xyz_raw.acc_x, acc_xyz_raw.acc_y, acc_xyz_raw.acc_z);
 }
 
 /******************************************************************************
