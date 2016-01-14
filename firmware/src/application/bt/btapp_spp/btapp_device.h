@@ -65,6 +65,7 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 #define ACCEL_XYZ_RAW_MSG           777  /* Command represent that the message  
                                         is accelerometer raw values.
                                      */
+#define LED_MODE_CONTROL        116
 
 #define TEMP_TYPE_REG           251
 #define SINGLE_CHAR_RED50       'r'

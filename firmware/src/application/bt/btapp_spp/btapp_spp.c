@@ -284,14 +284,16 @@ static void processReceivedData(void)
                 mTempCallbackRate = Size;
                 mRateChange = BT_TRUE;
         }
-        else if (Command == ACCEL_XYZ_RAW_MSG)
+        else if (Command == ACCEL_XYZ_RAW_MSG) // this command can be remove
         {
             //Red, Green, Blue are map to accel_x, accel_y, accel_z
             ACCEL_XYZ_RAW xyz_raw;
              xyz_raw.acc_x = Red;
             xyz_raw.acc_y = Green;
             xyz_raw.acc_z = Blue;
-            while( xQueueOverwrite(xAccelDataReceivedFromBTQueue, &xyz_raw) != pdPASS );
+            //while( xQueueOverwrite(xAccelDataReceivedFromBTQueue, &xyz_raw) != pdPASS );
+        } else if (Command == LED_MODE_CONTROL) {
+            while( xQueueOverwrite(xDataReceivedFromBTQueue, &Size) != pdPASS );
         }
     
         /* For Single Char LED Control */

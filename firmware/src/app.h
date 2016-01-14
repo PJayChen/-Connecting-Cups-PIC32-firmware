@@ -124,7 +124,18 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 // *****************************************************************************
 QueueHandle_t xAccelQueue;
 QueueHandle_t xAccelRawQueue;
-QueueHandle_t xAccelDataReceivedFromBTQueue;
+QueueHandle_t xDataReceivedFromBTQueue;
+
+// *****************************************************************************
+// *****************************************************************************
+// Section: LED Control parameter
+// *****************************************************************************
+// *****************************************************************************
+#define SHAKE_V 0
+#define SHAKE_H 1
+#define DRINKING 2
+#define SWAYING 3
+#define TOASTING 4
 
 // *****************************************************************************
 // *****************************************************************************

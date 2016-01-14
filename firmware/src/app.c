@@ -154,27 +154,82 @@ __attribute__((always_inline)) void LEDcontrol_Tasks ( void )
 {
     static uint8_t red = 0, green = 0, blue = 0;
     static bool flag = 0;
+    static int LED_mode = 5, last_LED_mode = 5;
+  
+    xQueueReceive( xDataReceivedFromBTQueue, &( LED_mode ), 0 );  
     
-    if (flag == 0) {
-        if (red < 200) red += 4;
-        else flag = 1;
-        
-        if (blue > 1) blue -= 4;
-        
-        if (green > 1) green -= 10;
-        
-    } else if (flag == 1) {
-        if (red > 1) red -= 4;
-        else flag = 0;
-        
-        if (blue < 200) blue += 4;
-        
-        if (green < 200) green += 10;
+    if (LED_mode != last_LED_mode) {
+        red = 0; green = 0; blue = 0;
+        last_LED_mode = LED_mode;
     }
     
+    switch(LED_mode) {
+        case SHAKE_V:
+             if (flag == 0) {
+                if (red < 200) red += 4;
+                else flag = 1;               
+            } else if (flag == 1) {
+                if (red > 1) red -= 4;
+                else flag = 0;                
+            }             
+            break;
+        case SHAKE_H:
+            if (flag == 0) {
+                if (green < 200) green += 4;
+                else flag = 1;               
+            } else if (flag == 1) {
+                if (green > 1) green -= 4;
+                else flag = 0;                
+            }             
+            break;
+        case SWAYING:
+            if (flag == 0) {
+                if (blue < 200) { blue += 4; green += 4;}
+                else flag = 1;               
+            } else if (flag == 1) {
+                if (blue > 1) { blue -= 4; green -= 4;}
+                else flag = 0;                
+            }
+            break;
+        case DRINKING: //yellow
+            if (flag == 0) {
+                if (red < 200) {red += 4; green += 4;}
+                else flag = 1;               
+            } else if (flag == 1) {
+                if (red > 1) {red -= 4; green -= 4;}
+                else flag = 0;                
+            }
+            break;        
+        case TOASTING: //purple
+            if (flag == 0) {
+                if (red < 200) {red += 4; blue += 4;}
+                else flag = 1;               
+            } else if (flag == 1) {
+                if (red > 1) {red -= 4; blue -= 4;}
+                else flag = 0;                
+            }
+            break;
+        default:
+            if (flag == 0) {
+                if (red < 200) red += 4;
+                else flag = 1;
+
+                if (blue > 1) blue -= 4;
+
+                if (green > 1) green -= 10;
+
+            } else if (flag == 1) {
+                if (red > 1) red -= 4;
+                else flag = 0;
+
+                if (blue < 200) blue += 4;
+
+                if (green < 200) green += 10;
+            }            
+    }
+                
     LEDColorSet(red, green, blue);
-    
-    
+        
 //    ACCEL_XYZ_RAW  acc_xyz_raw;
 //    while(xQueuePeek( xAccelRawQueue, &( acc_xyz_raw ), ( TickType_t ) 10 ) != pdTRUE);
 //    while(xQueuePeek( xAccelDataReceivedFromBTQueue, &( acc_xyz_raw ), ( TickType_t ) 10 ) != pdTRUE);    
