@@ -200,7 +200,7 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 #define APP_PERIPHERAL_BUS_FREQUENCY_GET()               SYS_CLK_PeripheralFrequencyGet(CLK_BUS_PERIPHERAL_2)
 
 /* BT connection name */
-#define APP_BT_SPP_CONNECTION_NAME                      "BTSK"
+#define APP_BT_SPP_CONNECTION_NAME                      "Happiness Cup"
 
 #define APP_BT_USART_BAUD_CLOCK                         SYS_CLK_BUS_PERIPHERAL_1
 #define APP_BT_USART_WORKING_BAUD_RATE                  4000000
