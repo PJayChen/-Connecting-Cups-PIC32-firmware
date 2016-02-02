@@ -143,8 +143,14 @@ void sendAccel(void)
     
     int i = 0;         
     int BuffSize = 0;
-    char Buffer[500] = {0};
-    char Buffer2[100]= {0};
+    
+    // buffers is locate in .data section
+    static char Buffer[500] = {0};
+    static char Buffer2[100]= {0};
+    
+    // reset buffers
+    Buffer[0] = '\0';
+    Buffer2[0] = '\0';
     
     //starting char
     strcpy(Buffer, ";");
@@ -288,12 +294,13 @@ static void processReceivedData(void)
         {
             //Red, Green, Blue are map to accel_x, accel_y, accel_z
             ACCEL_XYZ_RAW xyz_raw;
-             xyz_raw.acc_x = Red;
+            xyz_raw.acc_x = Red;
             xyz_raw.acc_y = Green;
             xyz_raw.acc_z = Blue;
             //while( xQueueOverwrite(xAccelDataReceivedFromBTQueue, &xyz_raw) != pdPASS );
+      /* If command (116,MOTION_TYPE) is received, send the MOTION_TYPE to LEDcontrol_Tasks. */
         } else if (Command == LED_MODE_CONTROL) {
-            while( xQueueOverwrite(xDataReceivedFromBTQueue, &Size) != pdPASS );
+            xQueueOverwriteFromISR(xDataReceivedFromBTQueue, &Size, NULL);
         }
     
         /* For Single Char LED Control */
